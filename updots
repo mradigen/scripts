@@ -7,8 +7,6 @@
 #   - git
 # ~ ADIGEN
 
-echo test
-
 # Exit on any error
 set -e
 alias dots="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
