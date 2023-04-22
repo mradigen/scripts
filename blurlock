@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#-- blurlock --#
+#-- i3lock (overwrite) --#
 # Lock the screen using a blur effect.
 # Dependencies:
 #	- i3lock-color
