@@ -1,0 +1,98 @@
+#! /bin/sh
+
+#-- todo --#
+# A script to manage your todo list
+# Dependencies:
+#   - none :)
+# ~ ADIGEN
+
+TODO_FILE="$HOME/.todo"
+d='.' # Delimiter between number and task
+alias echo="echo -e"
+
+set -e
+
+_usage() {
+	cat <<EOF
+Usage:
+	todo							show your todo list
+	todo [COMMAND] [TASK/NUMBER]	add/rm a task to your todo list
+
+Commands:
+	help							show this help
+	add [TASK]						add a task
+	rm [NUMBER]						remove a task
+	done [NUMBER]					mark a task as done
+	clean							remove all done tasks
+	clear							remove all tasks
+EOF
+}
+
+_list() {
+	i=1
+	while read -r line; do
+		if echo "$line" | grep -q '^;'; then
+			echo "${i}${d} \e[9m${line:1}\e[0m"
+		else
+			echo "${i}${d} \e[1m${line}\e[0m"
+		fi
+		i=$((i + 1))
+	done < "$TODO_FILE"
+}
+
+_add() {
+	echo "$@" >> $TODO_FILE
+}
+
+_rm() {
+	sed -i "${1}d" $TODO_FILE
+}
+
+_done() {
+	sed -n "${1}p" $TODO_FILE | grep -q '^;'
+	if [ $? -eq 0 ]; then
+		echo "Task already done."
+		exit 1
+	else
+		sed -i "${1}s/^/;/" $TODO_FILE
+	fi
+}
+
+_clean() {
+	sed -i '/^;/d' $TODO_FILE
+}
+
+_clear() {
+	read -s -n 1 -p 'Are you sure that you would like to clear your todo list? (y/n): ' ans
+	[[ $ans = 'y' ]] && truncate -s 0 $TODO_FILE
+}
+
+case "$1" in
+	help)
+		_usage
+		;;
+	add)
+		shift
+		_add "$@"
+		;;
+	rm)
+		shift
+		_rm "$@"
+		;;
+	done)
+		shift
+		_done "$@"
+		;;
+	clean)
+		_clean
+		;;
+	clear)
+		_clear
+		;;
+	'')
+		_list
+		;;
+	*)
+		_usage
+		;;
+esac
