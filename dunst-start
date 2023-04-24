@@ -2,6 +2,8 @@
 
 #-- dunst-start --#
 # Start dunst with `wal` colors
+# I don't use this anymore, instead
+# edit the colors in direcly to dunstrc using sed (regex)
 # Dependencies:
 #	- xrdb
 # ~ ADIGEN

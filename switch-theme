@@ -66,7 +66,9 @@ sed -i '/background = /s/.*/    background = "'$color0'"/' $DUNST_FILE
 sed -i '/foreground = /s/.*/    foreground = "'$color7'"/' $DUNST_FILE
 sed -i '/frame_color = /s/.*/    frame_color = "'$color5'"/' $DUNST_FILE
 
-killall -q dunst; dunst-start & disown
+# Not needed, dunst gets autostarted from dbus anyways
+#killall -q dunst; dunst & disown
+killall -q dunst
 
 ##############
 ## GTK & Qt ##
@@ -85,5 +87,3 @@ bspc config presel_feedback_color "$color1"
 ## OpenRGB ##
 #############
 lights
-
-exit
