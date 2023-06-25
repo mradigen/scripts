@@ -7,7 +7,7 @@
 
 # Time difference between checks in seconds. (Default: 86400)
 time_difference=${1:-86400}
-update_command=${2:-yay -Syu}
+update_command=${2:-yay -Syu --removemake}
 
 last_update=`grep "synchronizing package lists" /var/log/pacman.log | tail -n 1 | cut -d ' ' -f 1 | tr -d '[]'`
 last_update_time=`date +%s -d ${last_update}`
