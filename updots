@@ -28,6 +28,6 @@ grep -Fvxf ~/Documents/Extra/packages.extra ~/Documents/Extra/packages > ~/Docum
 dots submodule foreach 'git commit -am "updots" || true'
 dots submodule foreach 'git push || true'
 
-# Psuh main
+# Push main
 dots commit -am 'updots'
 dots push
