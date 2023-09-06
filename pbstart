@@ -13,6 +13,10 @@ killall -q polybar
 # If all your bars have ipc enabled, you can also use 
 # polybar-msg cmd quit
 
+# Get background color from pywal and add opacity 
+source ~/.cache/wal/colors.sh
+export color0_alpha="#80${color0/'#'}"
+
 # Launch bar example
 for m in $(polybar --list-monitors | cut -d":" -f1); do
 	MONITOR=$m polybar --reload $POLYBAR_BAR &
