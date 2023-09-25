@@ -49,8 +49,9 @@ _rm() {
 }
 
 _done() {
-	sed -n "${1}p" $TODO_FILE | grep -q '^;'
-	if [ $? -eq 0 ]; then
+	#sed -n "${1}p" $TODO_FILE | grep -q '^;'
+	#if [ $? -eq 0 ]; then
+	if [ -n "`sed -n "${1}p" .todo | grep '^;'`" ]; then
 		echo "Task already done."
 		exit 1
 	else
