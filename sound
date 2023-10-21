@@ -24,7 +24,7 @@ case "${1}" in
 	;;
 
 "mic")
-	pactl set-source-mute alsa_input.pci-0000_04_00.6.5.HiFi__hw_acp__source toggle && dunstify -t 500 -u low -r '92813' "Mic $(pactl get-source-mute @DEFAULT_SOURCE@)"
+	pactl set-source-mute alsa_input.pci-0000_04_00.6.3.HiFi__hw_acp__source toggle && dunstify -t 500 -u low -r '92813' "Mic $(pactl get-source-mute @DEFAULT_SOURCE@)"
 	#amixer set Capture toggle; dunstify -t 500 -u low -r '92813' "Mic $(amixer get Capture | awk -F'[][]' '/Left:/ {print $6}')"
 	;;
 esac

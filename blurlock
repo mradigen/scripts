@@ -18,7 +18,7 @@ WRONG="${color0}"
 VERIFYING="${color7}"
 
 # Sleeping cause the poermenu has to disappear before it takes the screenshot for blurring
-sleep 1
+# sleep 1
 
 i3lock \
 --radius 150 \
@@ -45,7 +45,7 @@ i3lock \
 --greeter-color=$TEXT		 \
 \
 --screen 1                   \
---blur 5                     \
+--blur 10                     \
 --clock                      \
 \
 --greeter-text="`emos | fold -w 50 -s`" \

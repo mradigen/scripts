@@ -34,6 +34,6 @@ else
     while read -r instance; do
         #bspc node "${instance}" --flag hidden --to-monitor focused --focus
         #bspc node "${instance}" --flag hidden --flag sticky=on --layer above --to-monitor focused --focus -t floating
-        bspc node "${instance}" --flag hidden --to-monitor focused --focus -t floating
+        bspc node "${instance}" --flag hidden --to-monitor focused --focus --flag sticky=on -t floating
     done <<<"${id}"
 fi
