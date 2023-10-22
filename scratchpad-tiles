@@ -1,0 +1,165 @@
+#! /bin/zsh
+# I'm too lazy to port this to bash
+
+#-- scratchpad-tiles --#
+# A togglable scratchpad that opens windows like tiles.
+# `scratchpad-tiles help` for help.
+# Dependencies:
+#	- xdotool
+#	- bspwm
+#	- python-xlib (for blurring)
+# ~ ADIGEN
+
+# ###############
+# ## Functions ##
+# ###############
+_toggle() {
+	# Get config
+	CONFIG_FILE=${1:-~/.config/scratchpad/mainrc}
+
+	windows=()
+	source ${CONFIG_FILE}
+
+	for i in {0..$[${#windows}-1]..4}; do
+		window=(${windows:$i:4})
+
+		# Get window ID
+		id=`xdotool search --classname "${window[2]}"`
+
+		# If window doesn't exist, run the application
+		if [ -z "${id}" ]; then
+			# Have the program obey the config size and position when it launches
+			# Will have to clean this stupid cut and all mess later
+			bspc rule -a "*:${window[2]}" state=floating rectangle=`echo ${window[4]} | cut -d' ' -f1`x`echo ${window[4]} | cut -d' ' -f2`+`echo ${window[3]} | cut -d' ' -f1`+`echo ${window[3]} | cut -d' ' -f2` layer=above
+
+			eval ${window[1]} & disown
+		else
+			# Loop through all the ids found
+			while read -r instance; do
+				# Toggle hidden
+				bspc node "${instance}" --flag hidden --flag sticky=on --layer above -t floating
+				echo ${window[3]} ${window[4]}
+
+				# Tile it (disabled since it allows for a customizable scratchpad)
+				# winsnap ${window[3]} $instance
+				# winset $instance ${window[3]} ${window[4]}
+			done <<<"${id}"
+		fi
+	done
+
+	blur
+}
+
+_save() {
+	# echo hi
+	# exit
+	CONFIG_FILE=${1:-~/.config/scratchpad/mainrc}
+	NEW_CONFIG='#!/bin/sh
+# AUTO GENERATED
+# Format:
+# windows += ("command", "classname", "X Y", "W H")
+'
+	
+	nodes=`bspc query -N -n .window.tiled -d`
+	while read -r instance; do
+		# Toggle hidden
+		# bspc node "${instance}" --flag hidden --flag sticky=on -t floating
+		class_name=`getclass $instance`
+		pos=`getpos $instance`
+		size=`getsize $instance`
+
+		NEW_CONFIG+="\nwindows+=('# ENTER LAUNCH COMMAND HERE' '${class_name}' '${pos}' '${size}')"
+
+		# Tile it
+		# winsnap ${window[3]} $instance
+	done <<<"${nodes}"
+
+	echo $NEW_CONFIG > $CONFIG_FILE
+
+	notify-send "Config saved to ${CONFIG_FILE}" "REVIEW THIS FILE BEFORE USING"
+}
+
+
+#############
+## Helpers ##
+#############
+# (wid, pos="X Y", size="W H")
+winset() {
+	xdotool windowmove $1 `echo $2` \
+			windowsize $1 `echo $3`
+}
+
+# (wid)
+getsize() {
+	WIN_SIZE=$(xdotool getwindowgeometry $1 \
+		| grep -o "[0-9]*x[0-9]*")
+
+	WIN_W=$(echo $WIN_SIZE | cut -dx -f1)
+	WIN_H=$(echo $WIN_SIZE | cut -dx -f2)
+	echo $WIN_W $WIN_H 
+	# bspc query -T -n $windowid | jq .rectangle
+}
+
+# (wid)
+getpos() {
+	WIN_POS=$(xdotool getwindowgeometry $1 \
+		| grep -o "[0-9]*,[0-9]*")
+
+	WIN_X=$(echo $WIN_POS | cut -d , -f1)
+	WIN_Y=$(echo $WIN_POS | cut -d , -f2)
+	echo $WIN_X $WIN_Y
+	# bspc query -T -n $windowid | jq .rectangle
+}
+
+# (wid)
+getclass() {
+	echo `xdotool getwindowclassname $1`	
+	# bspc query -T -n $instance | jq .client.className
+}
+
+# Runs a python script to create a blur window using `python-xlib`
+blur() {
+	if [ -f ~/.cache/scratchpad-blur.lock ]; then
+		kill `cat ~/.cache/scratchpad-blur.lock`
+	else
+		echo 'exec("""\nfrom Xlib import X, display, Xatom\ndisplay = display.Display()\nscreen = display.screen()\nwindow = screen.root.create_window(\n    0, 0, 1920, 1080, 1,\n    screen.root_depth,\n    background_pixel=screen.black_pixel\n)\nwindow.set_wm_class("blur", "blur")\nwindow.change_property(display.get_atom("_NET_WM_WINDOW_OPACITY"), Xatom.CARDINAL,32,[0x20000000])\nwindow.change_property(display.get_atom("_NET_WM_STATE"), Xatom.ATOM,32,[display.get_atom("_NET_WM_STATE_FULLSCREEN"),display.get_atom("_NET_WM_STATE_STICKY")])\nwindow.map()\nwhile True: display.next_event()\n""")' | python - & p=$!; echo $p > ~/.cache/scratchpad-blur.lock; wait $p; rm ~/.cache/scratchpad-blur.lock 
+	fi
+}
+
+###########
+## Flags ##
+###########
+_usage() {
+	cat <<EOF
+Usage:
+	scratchpad-tiles [CONFIG]				Toggle the scratchpad
+
+Commands:
+	save [CONFIG]					Save the current layout to the given config
+	edit [CONFIG]					Edit the given config
+
+The default config location is ~/.config/scratchpad/mainrc
+EOF
+}
+
+case "$1" in
+	help|-h|--help)
+		_usage
+		;;
+	save)
+		shift
+		_save "$@"
+		;;
+	edit)
+		shift
+		_edit "$@"
+		;;
+	toggle)
+		shift 
+		_toggle "$@"
+		;;
+	*)
+		_usage
+		exit 1
+		;;
+esac
