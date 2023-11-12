@@ -11,11 +11,13 @@ cd ~/.screenlayout
 current=$(cat current)
 
 case "$current" in
-	"single") echo "exec ~/.screenlayout/dualoffset.sh" > fix.sh && echo "dual" > current
+	"dual") echo "mirror" > current
 	;;
-	"dual") echo "exec ~/.screenlayout/mirror.sh" > fix.sh && echo "mirror" > current
+	"mirror") echo "single_main" > current
 	;;
-	"mirror") echo "exec ~/.screenlayout/single.sh" > fix.sh && echo "single" > current
+	"single_main") echo "single_secondary" > current
+	;;
+	"single_secondary") echo "dual" > current
 	;;
 esac
 
