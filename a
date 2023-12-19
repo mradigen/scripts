@@ -1,0 +1,10 @@
+#! /bin/sh
+
+#-- nvim --#
+# just an alias with flags to neovide
+# Dependencies:
+#   - neovide
+#   - neovim
+# ~ ADIGEN
+
+neovide --multigrid --novsync --nofork

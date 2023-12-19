@@ -1,0 +1,9 @@
+#! /bin/sh
+
+#-- edit --#
+# script to launch neovide with flags
+# Dependencies:
+#   - neovide
+# ~ ADIGEN
+
+neovide --multigrid --novsync --nofork "$@"

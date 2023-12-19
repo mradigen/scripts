@@ -11,12 +11,12 @@ alias amixer='amixer -D hw:1'
 
 case "${1}" in
 "increase")
-	pactl set-sink-volume @DEFAULT_SINK@ +5% && dunstify -t 500 -u low -r '92813' "Volume: $(pactl get-sink-volume @DEFAULT_SINK@ | awk -F' ' '/%/ { print $5 }')"
-	#amixer sset Master 5%+ && dunstify -t 500 -u low -r '92813' "Volume: `amixer sget Master | awk -F'[][]' '/%/ { print $2 }' | head -1`"
+	# pactl set-sink-volume @DEFAULT_SINK@ +5% && dunstify -t 500 -u low -r '92813' "Volume: $(pactl get-sink-volume @DEFAULT_SINK@ | awk -F' ' '/%/ { print $5 }')"
+	amixer sset Master 5%+ && dunstify -t 500 -u low -r '92813' "Volume: `amixer sget Master | awk -F'[][]' '/%/ { print $2 }' | head -1`"
 	;;
 "decrease")
-	pactl set-sink-volume @DEFAULT_SINK@ -5% && dunstify -t 500 -u low -r '92813' "Volume: $(pactl get-sink-volume @DEFAULT_SINK@ | awk -F' ' '/%/ { print $5 }')"
-	#amixer sset Master 5%- && dunstify -t 500 -u low -r '92813' "Volume: `amixer sget Master | awk -F'[][]' '/%/ { print $2 }' | head -1`"
+	# pactl set-sink-volume @DEFAULT_SINK@ -5% && dunstify -t 500 -u low -r '92813' "Volume: $(pactl get-sink-volume @DEFAULT_SINK@ | awk -F' ' '/%/ { print $5 }')"
+	amixer sset Master 5%- && dunstify -t 500 -u low -r '92813' "Volume: `amixer sget Master | awk -F'[][]' '/%/ { print $2 }' | head -1`"
 	;;
 "mute")
 	amixer sset Master toggle
@@ -24,7 +24,7 @@ case "${1}" in
 	;;
 
 "mic")
-	pactl set-source-mute alsa_input.pci-0000_04_00.6.3.HiFi__hw_acp__source toggle && dunstify -t 500 -u low -r '92813' "Mic $(pactl get-source-mute @DEFAULT_SOURCE@)"
+	pactl set-source-mute alsa_input.pci-0000_04_00.6.HiFi__hw_acp__source toggle && dunstify -t 500 -u low -r '92813' "Mic $(pactl get-source-mute @DEFAULT_SOURCE@)"
 	#amixer set Capture toggle; dunstify -t 500 -u low -r '92813' "Mic $(amixer get Capture | awk -F'[][]' '/Left:/ {print $6}')"
 	;;
 esac
