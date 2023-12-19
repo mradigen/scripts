@@ -1,0 +1,22 @@
+#! /bin/sh
+
+#-- open-or-switch-to --#
+# Scripts easen one's life.
+# But we don't know much about what this one does.
+# (DESCRIPTION NOT PROVIDED)
+# Dependencies:
+#   - NOT_SET
+# ~ ADIGEN
+
+exe=$1
+classname=$2
+
+id=$(xdotool search --classname "${classname}")
+if [[ -z "${id}" ]]; then
+	${exe}
+	echo "hi"
+else
+	while read -r instance; do
+		bspc node "${instance}" --focus
+	done <<<"${id}"
+fi
