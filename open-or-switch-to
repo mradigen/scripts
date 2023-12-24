@@ -1,20 +1,29 @@
 #! /bin/sh
 
 #-- open-or-switch-to --#
-# Scripts easen one's life.
-# But we don't know much about what this one does.
-# (DESCRIPTION NOT PROVIDED)
+# Scratchpad functionality but with desktops.
+# Launches program if doesn't
 # Dependencies:
-#   - NOT_SET
+#   - xdotool
 # ~ ADIGEN
 
-exe=$1
-classname=$2
+# case is overkill here but is nicer to add more options down the line.
+case "$1" in
+	-h|h|help|--help|'')
+		cat <<EOF
+Usage: $(basename "${0}") CLASSNAME/TITLE LAUNCH_COMMAND...
+EOF
+		exit
+		;;
+esac
 
-id=$(xdotool search --classname "${classname}")
-if [[ -z "${id}" ]]; then
+windowname=$1
+shift
+exe=$@
+
+id=$(xdotool search "${windowname}")
+if [ -z "${id}" ]; then
 	${exe}
-	echo "hi"
 else
 	while read -r instance; do
 		bspc node "${instance}" --focus
