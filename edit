@@ -6,4 +6,4 @@
 #   - neovide
 # ~ ADIGEN
 
-neovide --multigrid --novsync --nofork "$@"
+neovide --no-vsync --no-fork "$@"
