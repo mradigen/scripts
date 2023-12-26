@@ -21,4 +21,5 @@ case "$current" in
 	;;
 esac
 
-bspc wm -r
+# bspc wm -r
+bspc monitor primary -d 1 2 3 4 5
