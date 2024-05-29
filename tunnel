@@ -1,0 +1,34 @@
+#! /bin/sh
+
+_usage() {
+	cat <<EOF
+NAME
+	tunnel - run an ssh reverse tunnel in background
+
+USAGE
+	tunnel DESTINATION REMOTE_PORT LOCAL_PORT
+
+DESCRIPTION
+	Helper script to run an ssh tunnel in background
+
+DEPENDENCIES
+	- ssh
+
+AUTHOR
+	ADIGEN (https://aadivishnu.com)
+EOF
+}
+
+case $1 in
+	-h|h|help|--help)
+		_usage
+		exit
+		;;
+esac
+
+
+DESTINATION=${1}
+REMOTE_PORT=${2}
+LOCAL_PORT=${3}
+
+/usr/bin/ssh -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -gnNT -R ${REMOTE_PORT}:127.0.0.1:${LOCAL_PORT} ${DESTINATION}

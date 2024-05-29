@@ -22,15 +22,44 @@ SCRIPTS_DIR="${HOME}/.local/bin"
 AUTHOR="ADIGEN"
 SCRIPT_EDITOR="${EDITOR:-vim}"
 SCRIPT="${SCRIPTS_DIR}/${1}"
+# TEMPLATE="#! /bin/sh
+#
+# #-- ${1} --#
+# # Scripts easen one's life.
+# # But we don't know much about what this one does.
+# # (DESCRIPTION NOT PROVIDED)
+# # Dependencies:
+# #   - NOT_SET
+# # ~ ${AUTHOR}"
 TEMPLATE="#! /bin/sh
 
-#-- ${1} --#
-# Scripts easen one's life.
-# But we don't know much about what this one does.
-# (DESCRIPTION NOT PROVIDED)
-# Dependencies:
-#   - NOT_SET
-# ~ ${AUTHOR}"
+_usage() {
+	cat <<EOF
+NAME
+	${1} - DESCRIPTION NOT PROVIDED
+
+USAGE
+	${1}
+
+DESCRIPTION
+	Scripts easen one's life.
+	But we don't know much about what this one does.
+	(DESCRIPTION NOT PROVIDED)
+
+DEPENDENCIES
+	- NOT_SET
+
+AUTHOR
+	${AUTHOR} (https://aadivishnu.com)
+EOF
+}
+
+case "\$\1" in
+	-h|h|help|--help)
+		_usage
+		exit
+		;;
+esac"
 #################
 
 # Check if the script already exists.
