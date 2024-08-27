@@ -1,0 +1,32 @@
+#! /bin/sh
+
+_usage() {
+	cat <<EOF
+NAME
+	ocr - Select screen region and get OCR text copied to clipboard
+
+USAGE
+	ocr
+
+DESCRIPTION
+	Simple script to
+
+DEPENDENCIES
+	- maim
+	- tesseract
+	- dunst (or any notified)
+
+AUTHOR
+	ADIGEN (https://aadivishnu.com)
+EOF
+}
+
+scrot='maim -squl -b 3 -m 10 -c 0.8,0.6,0.9,0.3'
+notifier='dunstify'
+filenameFormat='%Y-%m-%d-%T.png'
+fileSaveLoc=`echo $HOME/Pictures/Screenshots/$(date +${filenameFormat})`
+fileCacheLoc="/tmp/screenshot_cache_temp.png"
+
+${scrot} ${fileCacheLoc} &&
+tesseract ${fileCacheLoc} stdout | xclip -selection clipboard
+${notifier} -t 5000 -r '12345' OCR "Text copied to clipboard"
