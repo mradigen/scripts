@@ -27,6 +27,8 @@ else
 	w=`echo $w | sed 's/.*/\l&/'`
 fi
 
+complete -W "$(ls ~/Pictures/Wallpapers | sed '/^$/d' | sed 's/\.[^.]*$//' | sed 's/.*/\u&/')" "$(basename "${0}")"
+
 #########
 ## wal ##
 #########

@@ -11,15 +11,25 @@ cd ~/.screenlayout
 current=$(cat current)
 
 case "$current" in
-	"dual") echo "mirror" > current
+	"dual")
+		echo "mirror" > current
+		# bspc monitor HDMI-A-0 -d 1 2 3 4 5
+		# bspc monitor eDP -d 6
 	;;
-	"mirror") echo "single_main" > current
+	"mirror")
+		echo "single_main" > current
+		# bspc monitor eDP -d 1 2 3 4 5
 	;;
-	"single_main") echo "single_secondary" > current
+	"single_main")
+		echo "single_secondary" > current
+		# bspc monitor eDP -d 1 2 3 4 5
+		# bspc monitor HDMI-A-0 -r
 	;;
-	"single_secondary") echo "dual" > current
+	"single_secondary")
+		echo "dual" > current
+		# bspc monitor HDMI-A-0 -d 1 2 3 4 5
+		# bspc monitor eDP -r
 	;;
 esac
 
-# bspc wm -r
 bspc monitor primary -d 1 2 3 4 5

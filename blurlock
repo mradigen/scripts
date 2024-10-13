@@ -62,6 +62,6 @@ i3lock \
 \
 --verif-text="Verifying" \
 --wrong-text="Incorrect" \
---noinput-text="Emtpy" \
+--noinput-text="Empty" \
 \
 --indicator \

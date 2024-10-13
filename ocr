@@ -9,20 +9,21 @@ USAGE
 	ocr
 
 DESCRIPTION
-	Simple script to
+	Simple script to OCR text on screen.
 
 DEPENDENCIES
 	- maim
 	- tesseract
-	- dunst (or any notified)
+	- tesseract-data-eng (or any other language)
+	- dunst (or any notifier which supports notify-send)
 
 AUTHOR
 	ADIGEN (https://aadivishnu.com)
 EOF
 }
 
-scrot='maim -squl -b 3 -m 10 -c 0.8,0.6,0.9,0.3'
-notifier='dunstify'
+scrot='maim -squl -b 3 -m 10 -c 1,0.1,0.1,0.3'
+notifier='notify-send'
 filenameFormat='%Y-%m-%d-%T.png'
 fileSaveLoc=`echo $HOME/Pictures/Screenshots/$(date +${filenameFormat})`
 fileCacheLoc="/tmp/screenshot_cache_temp.png"
