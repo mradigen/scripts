@@ -7,5 +7,11 @@
 #	- bspwm
 # ~ ADIGEN
 
-polybar-msg cmd toggle &&
-bspc config top_padding 0 
+if [ -f ~/.cache/pbtoggle ]; then 
+	polybar-msg cmd show 
+	rm ~/.cache/pbtoggle 
+else 
+	polybar-msg cmd hide 
+	bspc config top_padding 0 
+	touch ~/.cache/pbtoggle 
+fi
