@@ -66,6 +66,7 @@ DUNST_FILE=~/.config/dunst/dunstrc
 # Update dunst based on pywal colors.
 sed -i '/background = /s/.*/    background = "'$color0'"/' $DUNST_FILE
 sed -i '/foreground = /s/.*/    foreground = "'$color7'"/' $DUNST_FILE
+sed -i '/highlight = /s/.*/    highlight = "'$color7'"/' $DUNST_FILE
 sed -i '/frame_color = /s/.*/    frame_color = "'$color5'"/' $DUNST_FILE
 
 # Not needed, dunst gets autostarted from dbus anyways
