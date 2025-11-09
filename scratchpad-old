@@ -15,11 +15,12 @@ id=$(xdotool search --classname "${1}")
 
 # Show a blurred background
 if [ -f ~/.cache/scratchpad-blur.lock ]; then
-	kill `cat ~/.cache/scratchpad-blur.lock`
+	# kill `cat ~/.cache/scratchpad-blur.lock`
 	rm ~/.cache/scratchpad-blur.lock
 	state=on
 else
-	(echo 'exec("""\nfrom Xlib import X, display, Xatom\ndisplay = display.Display()\nscreen = display.screen()\nwindow = screen.root.create_window(\n    0, 0, 1920, 1080, 1,\n    screen.root_depth,\n    background_pixel=screen.black_pixel\n)\nwindow.set_wm_class("blur", "blur")\nwindow.change_property(display.get_atom("_NET_WM_WINDOW_OPACITY"), Xatom.CARDINAL,32,[0x20000000])\nwindow.change_property(display.get_atom("_NET_WM_STATE"), Xatom.ATOM,32,[display.get_atom("_NET_WM_STATE_FULLSCREEN"),display.get_atom("_NET_WM_STATE_STICKY")])\nwindow.map()\nwhile True: display.next_event()\n""")' | python - & p=$!; echo $p > ~/.cache/scratchpad-blur.lock; wait $p; rm ~/.cache/scratchpad-blur.lock ) & 
+	# (echo 'exec("""\nfrom Xlib import X, display, Xatom\ndisplay = display.Display()\nscreen = display.screen()\nwindow = screen.root.create_window(\n    0, 0, 1920, 1080, 1,\n    screen.root_depth,\n    background_pixel=screen.black_pixel\n)\nwindow.set_wm_class("blur", "blur")\nwindow.change_property(display.get_atom("_NET_WM_WINDOW_OPACITY"), Xatom.CARDINAL,32,[0x20000000])\nwindow.change_property(display.get_atom("_NET_WM_STATE"), Xatom.ATOM,32,[display.get_atom("_NET_WM_STATE_FULLSCREEN"),display.get_atom("_NET_WM_STATE_STICKY")])\nwindow.map()\nwhile True: display.next_event()\n""")' | python - & p=$!; echo $p > ~/.cache/scratchpad-blur.lock; wait $p; rm ~/.cache/scratchpad-blur.lock ) & 
+	touch ~/.cache/scratchpad-blur.lock 
 	state=off
 fi
 
