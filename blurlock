@@ -13,7 +13,7 @@
 BLANK="${color0}00"
 CLEAR="${color0}00"
 DEFAULT="${color5}"
-TEXT="${color5}"
+TEXT="${color0}"
 WRONG="${color0}"
 VERIFYING="${color7}"
 

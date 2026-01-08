@@ -1,0 +1,31 @@
+#! /bin/sh
+
+_usage() {
+	cat <<EOF
+NAME
+	code-project - DESCRIPTION NOT PROVIDED
+
+USAGE
+	code-project
+
+DESCRIPTION
+	Scripts easen one's life.
+	But we don't know much about what this one does.
+	(DESCRIPTION NOT PROVIDED)
+
+DEPENDENCIES
+	- NOT_SET
+
+AUTHOR
+	ADIGEN (https://aadivishnu.com)
+EOF
+}
+
+case $1 in
+	-h|h|help|--help)
+		_usage
+		exit
+		;;
+esac
+
+p=$(ls ~/Projects | sed '/^$/d' | sed 's/\.[^.]*$//' | sed "s|^|$HOME/Projects/|" | rofi -dmenu -i -p "Open project") && [ -n "$p" ] && code "$p"

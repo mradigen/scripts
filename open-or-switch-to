@@ -4,14 +4,15 @@
 # Scratchpad functionality but with desktops.
 # Launches program if doesn't
 # Dependencies:
-#   - xdotool
+#	- wmctrl
+#   - xdotool (OLD)
 # ~ ADIGEN
 
 # case is overkill here but is nicer to add more options down the line.
 case "$1" in
 	-h|h|help|--help|'')
 		cat <<EOF
-Usage: $(basename "${0}") CLASSNAME/TITLE LAUNCH_COMMAND...
+Usage: $(basename "${0}") INSTANCENAME/CLASSNAME/TITLE LAUNCH_COMMAND...
 EOF
 		exit
 		;;
@@ -19,9 +20,11 @@ esac
 
 windowname=$1
 shift
+echo $@
 exe=$@
 
-id=$(xdotool search "${windowname}")
+# id=$(xdotool search "${windowname}")
+id=$(wmctrl -lx | grep "${windowname}" | awk '{print $1}')
 if [ -z "${id}" ]; then
 	${exe}
 else
