@@ -4,4 +4,4 @@
 #brightness=`expr $brightness + $1`
 #sudo echo $brightness > $BRIGHTNESS_FILE
 
-xbacklight -inc $1
+brightnessctl s $1
