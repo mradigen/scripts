@@ -1,0 +1,40 @@
+#! /bin/sh
+
+_usage() {
+	cat <<EOF
+NAME
+	open-or-switch-to-niri - DESCRIPTION NOT PROVIDED
+
+USAGE
+	open-or-switch-to-niri
+
+DESCRIPTION
+	Scripts easen one's life.
+	But we don't know much about what this one does.
+	(DESCRIPTION NOT PROVIDED)
+
+DEPENDENCIES
+	- NOT_SET
+
+AUTHOR
+	ADIGEN (https://aadivishnu.com)
+EOF
+}
+
+case $1 in
+	-h|h|help|--help)
+		_usage
+		exit
+		;;
+esac
+
+TARGET_APP_ID="$1"
+LAUNCH_CMD="$2"
+
+WINDOW_ID=$(niri msg -j windows | jq -r ".[] | select(.app_id == \"$TARGET_APP_ID\") | .id" | head -n 1)
+
+if [ -n "$WINDOW_ID" ]; then
+    niri msg action focus-window --id "$WINDOW_ID"
+else
+    nohup $LAUNCH_CMD > /dev/null 2>&1 &
+fi

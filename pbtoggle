@@ -5,6 +5,8 @@
 # Dependencies:
 #	- polybar
 #	- bspwm
+#	- xdo
+#	- hideIt.sh
 # ~ ADIGEN
 
 if [ -f ~/.cache/pbtoggle ]; then 
@@ -16,6 +18,7 @@ if [ -f ~/.cache/pbtoggle ]; then
 
 	bspc config bottom_padding 1
 	bspc config window_gap 10
+	bspc config border_width 1
 
 	rm ~/.cache/pbtoggle 
 else 
@@ -32,6 +35,9 @@ else
 	bspc config top_padding 0
 	bspc config bottom_padding 1
 	bspc config window_gap 0
+	bspc config border_width 0
+
+	xdo raise -N Polybar
 
 	touch ~/.cache/pbtoggle 
 fi

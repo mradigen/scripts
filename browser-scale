@@ -1,0 +1,33 @@
+#! /bin/sh
+
+_usage() {
+	cat <<EOF
+NAME
+	browser-scale - DESCRIPTION NOT PROVIDED
+
+USAGE
+	browser-scale
+
+DESCRIPTION
+	Scripts easen one's life.
+	But we don't know much about what this one does.
+	(DESCRIPTION NOT PROVIDED)
+
+DEPENDENCIES
+	- NOT_SET
+
+AUTHOR
+	ADIGEN (https://aadivishnu.com)
+EOF
+}
+
+case $1 in
+	-h|h|help|--help)
+		_usage
+		exit
+		;;
+esac
+
+#/usr/bin/microsoft-edge-stable --force-device-scale-factor=1.2 "$@"
+# /usr/bin/microsoft-edge-stable --force-device-scale-factor=1.1 --disable-features=ElasticOverscroll --enable-features=TouchpadOverscrollHistoryNavigation,UseOzonePlatform --ozone-platform=wayland "$@"
+/usr/bin/microsoft-edge-stable --disable-features=ElasticOverscroll --enable-features=TouchpadOverscrollHistoryNavigation,UseOzonePlatform --ozone-platform=wayland "$@"
