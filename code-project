@@ -28,4 +28,4 @@ case $1 in
 		;;
 esac
 
-p=$(ls ~/Projects | sed '/^$/d' | sed 's/\.[^.]*$//' | sed "s|^|$HOME/Projects/|" | rofi -dmenu -i -p "Open project") && [ -n "$p" ] && code "$p"
+p=$(ls ~/Projects | sed '/^$/d' | sed 's/\.[^.]*$//' | sed "s|^|$HOME/Projects/|" | fuzzel --dmenu -i -p "Open project") && [ -n "$p" ] && code "$p"
